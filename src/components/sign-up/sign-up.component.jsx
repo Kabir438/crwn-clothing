@@ -15,7 +15,8 @@ class SignUp extends React.Component {
       displayName: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      type: ['password', 'password']
     };
   }
 
@@ -54,6 +55,13 @@ class SignUp extends React.Component {
     this.setState({ [name]: value });
   };
 
+  changeTypeOfConfirmPassword = () => {
+    this.setState({type: this.state.type[1] === 'password' ? [this.state.type[0], 'text'] : [this.state.type[0], 'password']})
+  }
+  changeTypeOfPassword = () => {
+    this.setState({type: this.state.type[0] === 'password' ? ['text', this.state.type[1]] : ['password', this.state.type[1]]})
+  }
+
   render() {
     const { displayName, email, password, confirmPassword } = this.state;
     return (
@@ -78,20 +86,24 @@ class SignUp extends React.Component {
             required
           />
           <FormInput
-            type='password'
             name='password'
             value={password}
             onChange={this.handleChange}
             label='Password'
             required
+            icon={true}
+            changeType={this.changeTypeOfPassword}
+            type={this.state.type[0]}
           />
           <FormInput
-            type='password'
             name='confirmPassword'
             value={confirmPassword}
             onChange={this.handleChange}
             label='Confirm Password'
             required
+            icon={true}
+            changeType={this.changeTypeOfConfirmPassword}
+            type={this.state.type[1]}
           />
           <CustomButton type='submit'>SIGN UP</CustomButton>
         </form>
