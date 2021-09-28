@@ -16,7 +16,8 @@ class SignUp extends React.Component {
       email: '',
       password: '',
       confirmPassword: '',
-      type: ['password', 'password']
+      type: ['password', 'password'],
+      error: null
     };
   }
 
@@ -26,7 +27,7 @@ class SignUp extends React.Component {
     const { displayName, email, password, confirmPassword } = this.state;
 
     if (password !== confirmPassword) {
-      alert("passwords don't match");
+      this.setState({error: 'Password Dont Match'});
       return;
     }
 
@@ -45,7 +46,8 @@ class SignUp extends React.Component {
         confirmPassword: ''
       });
     } catch (error) {
-      console.error(error);
+      this.setState({error: error});
+
     }
   };
 
@@ -105,6 +107,7 @@ class SignUp extends React.Component {
             changeType={this.changeTypeOfConfirmPassword}
             type={this.state.type[1]}
           />
+          {this.state.error ? <h1 id="error-sign-up">{this.state.error.toString().replace('Error: ', '').replace(' by another account', '')}</h1> : null}
           <CustomButton type='submit'>SIGN UP</CustomButton>
         </form>
       </div>
