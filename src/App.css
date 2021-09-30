@@ -1,13 +1,33 @@
 body {
   font-family: 'Open Sans Condensed';
   padding: 20px 40px;
+  background-color: var(--default-bg);
 }
 
 a {
   text-decoration: none;
-  color: black;
+  color: var(--default-text-color);
+}
+
+div {
+  color: var(--default-text-color);
+}
+
+path {
+  fill: var(--default-text-color) !important;
 }
 
 * {
   box-sizing: border-box;
+}
+
+:root {
+  --default-border: black;
+  --default-bg: white;
+  --invert-bg: black;
+  --default-text-color: black;
+  --invert-text-color: white;
+  --sub-color: #4a4a4a;
+  --sub-color2: #a5a5a5;
+  --default-brightness: 0.4;
 }

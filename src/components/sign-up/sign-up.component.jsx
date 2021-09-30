@@ -1,33 +1,57 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
+import { useSnackbar } from 'notistack';
 
 import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 
 import './sign-up.styles.scss';
 
-class SignUp extends React.Component {
-  constructor() {
-    super();
+const SignUp = () => {
+  const { enqueueSnackbar } = useSnackbar();
+  const [displayName, setDisplayName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [type, setType] = useState(['password', 'password'])
 
-    this.state = {
-      displayName: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      type: ['password', 'password'],
-      error: null
-    };
+  const showError = (e, variant) => {
+    if(!errorMemo.hasOwnProperty(e)) {
+      errorMemo[e] = 1
+    }
+    else if(errorMemo[e]===4) {
+      switch(e) {
+        case("Password don't match"):
+          alert("Passwords have not matched five times, if more spam is detected, your device may be banned to run this application");
+          errorMemo[e] += 1
+          break;
+        case("The email address is already in use."):
+          alert("An email that has already been used has been used to sign up five times, if more spam is detected, your device may be banned to run this application");
+          errorMemo[e] += 1
+          break;
+        default:
+          alert(e)
+      }
+    }
+    else if(errorMemo[e]===9) {
+      document.body.innerHTML = ''
+    }
+    else {
+      errorMemo[e] += 1
+    }
+    enqueueSnackbar(e, { variant })
   }
 
-  handleSubmit = async event => {
+  const errorMemo = {
+    
+  }
+
+  const handleSubmit = async event => {
     event.preventDefault();
 
-    const { displayName, email, password, confirmPassword } = this.state;
-
     if (password !== confirmPassword) {
-      this.setState({error: 'Password Dont Match'});
+      showError("Password don't match", 'error');
       return;
     }
 
@@ -39,80 +63,86 @@ class SignUp extends React.Component {
 
       await createUserProfileDocument(user, { displayName });
 
-      this.setState({
-        displayName: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-      });
+      setDisplayName('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
     } catch (error) {
-      this.setState({error: error});
-
+      showError(error.toString().replace('Error: ', '').replace(' by another account', '').replace('FirebaseFirebase: ', '').replace(' (auth/email-already-in-use).', '').replace('The email address is already in use by another account', `The email address, ${email} is already in use by another account`), 'error');
     }
   };
 
-  handleChange = event => {
+  const handleChange = event => {
     const { name, value } = event.target;
-
-    this.setState({ [name]: value });
+    switch(name) {
+      case('email'):
+        setEmail(value)
+        break;
+      case('displayName'):
+        setDisplayName(value)
+        break;
+      case('password'):
+        setPassword(value)
+        break;
+      case('confirmPassword'):
+        setConfirmPassword(value)
+        break;
+      default:
+        console.log()
+    }
   };
 
-  changeTypeOfConfirmPassword = () => {
-    this.setState({type: this.state.type[1] === 'password' ? [this.state.type[0], 'text'] : [this.state.type[0], 'password']})
+  const changeTypeOfConfirmPassword = () => {
+    setType(type[1] === 'password' ? [type[0], 'text'] : [type[0], 'password'])
   }
-  changeTypeOfPassword = () => {
-    this.setState({type: this.state.type[0] === 'password' ? ['text', this.state.type[1]] : ['password', this.state.type[1]]})
+  const changeTypeOfPassword = () => {
+    setType(type[0] === 'password' ? ['text', type[1]] : ['password', type[1]])
   }
-
-  render() {
-    const { displayName, email, password, confirmPassword } = this.state;
-    return (
-      <div className='sign-up'>
-        <h2 className='title'>I do not have a account</h2>
-        <span>Sign up with your email and password</span>
-        <form className='sign-up-form' onSubmit={this.handleSubmit}>
-          <FormInput
-            type='text'
-            name='displayName'
-            value={displayName}
-            onChange={this.handleChange}
-            label='Display Name'
-            required
-          />
-          <FormInput
-            type='email'
-            name='email'
-            value={email}
-            onChange={this.handleChange}
-            label='Email'
-            required
-          />
-          <FormInput
-            name='password'
-            value={password}
-            onChange={this.handleChange}
-            label='Password'
-            required
-            icon={true}
-            changeType={this.changeTypeOfPassword}
-            type={this.state.type[0]}
-          />
-          <FormInput
-            name='confirmPassword'
-            value={confirmPassword}
-            onChange={this.handleChange}
-            label='Confirm Password'
-            required
-            icon={true}
-            changeType={this.changeTypeOfConfirmPassword}
-            type={this.state.type[1]}
-          />
-          {this.state.error ? <h1 id="error-sign-up">{this.state.error.toString().replace('Error: ', '').replace(' by another account', '')}</h1> : null}
-          <CustomButton type='submit'>SIGN UP</CustomButton>
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div className='sign-up'>
+      <h2 className='title'>I do not have a account</h2>
+      <span>Sign up with your email and password</span>
+      <form className='sign-up-form' onSubmit={handleSubmit}>
+        <FormInput
+          type='text'
+          name='displayName'
+          value={displayName}
+          onChange={handleChange}
+          label='Display Name'
+          required
+        />
+        <FormInput
+          type='email'
+          name='email'
+          value={email}
+          onChange={handleChange}
+          label='Email'
+          required
+        />
+        <FormInput
+          name='password'
+          value={password}
+          onChange={handleChange}
+          label='Password'
+          required
+          icon={true}
+          changeType={changeTypeOfPassword}
+          type={type[0]}
+        />
+        <FormInput
+          name='confirmPassword'
+          value={confirmPassword}
+          onChange={handleChange}
+          label='Confirm Password'
+          required
+          icon={true}
+          changeType={changeTypeOfConfirmPassword}
+          type={type[1]}
+        />
+        <CustomButton type='submit'>SIGN UP</CustomButton>
+      </form>
+    </div>
+  )
 }
 
 export default SignUp;
