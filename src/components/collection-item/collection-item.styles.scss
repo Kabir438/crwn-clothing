@@ -1,17 +1,20 @@
 .collection-item {
-  width: 22%;
+  width: 22vw;
   display: flex;
   flex-direction: column;
   height: 350px;
   align-items: center;
   position: relative;
+  box-shadow: 0px 2px 1px -1px #00000033, 
+  0px 1px 1px 0px #00000033,
+  0px 1px 3px 0px #00000033;
 
   .image {
     width: 100%;
     height: 95%;
     background-size: 100%;
     background-position: center;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
     transition: background-size 6s cubic-bezier(0.25, 0.45, 0.45, 0.95);
   }
 
@@ -42,6 +45,8 @@
     display: flex;
     justify-content: space-between;
     font-size: 18px;
+    margin-bottom: 5px;
+    color: #000;
 
     .name {
       width: 90%;

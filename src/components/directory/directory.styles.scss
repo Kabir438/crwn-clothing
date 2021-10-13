@@ -3,4 +3,41 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  .MuiTypography-root {
+    color: black;
+  }
+  .MuiPaper-root {
+    user-select: none !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--default-bg);
+
+    &:hover {
+      .MuiContentImage-root {
+        background-size: 120%;
+      }
+    }
+    
+    .MuiContentImage-root {
+      background-repeat: no-repeat;
+      background-size: 100%;
+      background-position: center;
+      transition: background-size 3s linear;
+    }
+    .MuiCardContent-root {
+      position: absolute;
+      color: black;
+      background-color: azure;
+      opacity: 0.7;
+      border: 1px solid black;
+      border-radius: 7.5px;
+      .css-ag7rrr-MuiTypography-root {
+        text-align: center;
+      }
+      .css-ahj2mt-MuiTypography-root {
+        text-align: center;
+      }
+    }
+  }
 }
