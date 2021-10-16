@@ -5,11 +5,13 @@ import SignUp from '../../components/sign-up/sign-up.component';
 
 import './sign-in-and-sign-up.styles.scss';
 
-const SignInAndSignUpPage = () => (
+const SignInAndSignUpPage = () => {
+  document.title = `Sign in or Sign up`
+  return (
   <div className='sign-in-and-sign-up'>
     <SignIn />
     <SignUp />
   </div>
-);
+)};
 
 export default SignInAndSignUpPage;

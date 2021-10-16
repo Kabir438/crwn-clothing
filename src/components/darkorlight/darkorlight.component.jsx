@@ -86,7 +86,7 @@ class DarkOrLight extends Component {
                     <input onChange={this.handleChange} type="checkbox" id="checkbox-drl"/>
                     <span id="round" className="slider round"></span>
                 </label>
-                <h6 onClick={this.handleClick} className='mode-label' style={{left: localStorage.getItem('signedIn') === 'true' ? (this.state.darkOrLight === 'dark' ? '75.395%' : '77.15%') : (this.state.darkOrLight ===  'dark' ? '75.995%' : '77.75%'), color: this.state.darkOrLight === 'dark' ? 'white' : 'black'}}>{this.state.darkOrLight.toUpperCase()}</h6>
+                <h6 onClick={this.handleClick} className='mode-label' style={{left: localStorage.getItem('signedIn') === 'true' ? (this.state.darkOrLight === 'dark' ? '-66.005%' : '-33.25%') : (this.state.darkOrLight ===  'dark' ? '-66.005%' : '-31.25%'), color: this.state.darkOrLight === 'dark' ? 'white' : 'black'}}>{this.state.darkOrLight.toUpperCase()}</h6>
             </span>
         )
     }

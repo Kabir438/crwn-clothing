@@ -9,6 +9,7 @@ import './collection.style.scss';
 
 const CollectionPage = ({ collection }) => {
   const { title, items } = collection;
+  document.title = `Crwn Clothing - Shop ${title}`
   return (
     <div className='collection-page'>
       <h2 className='title'>{title}</h2>
